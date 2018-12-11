@@ -5,17 +5,12 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class SeniorLauncher extends AppCompatActivity {
@@ -93,21 +88,11 @@ public class SeniorLauncher extends AppCompatActivity {
                 }
 
                 if (phoneNumber != null && imageUri != null) {
-                    Bitmap contactPhoto = null;
-                    try {
-                        contactPhoto = MediaStore.Images.Media
-                                .getBitmap(this.getContentResolver(),
-                                        Uri.parse(imageUri));
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-
                     if (this.contactList == null) {
                         this.contactList = new ArrayList<>();
                     }
 
-                    this.contactList.add(new ContactRepresentation(phoneNumber, contactPhoto));
+                    this.contactList.add(new ContactRepresentation(phoneNumber, imageUri));
                 }
             }
         }
@@ -128,5 +113,14 @@ public class SeniorLauncher extends AppCompatActivity {
         Intent intent = new Intent(this, SeniorLauncherImages.class);
         intent.putExtra("contactList", contactList);
         startActivity(intent);
+    }
+
+    static String cleanPhoneNumber(String number) {
+        number = number.replace(" ", "");
+        number = number.replace("(", "");
+        number = number.replace(")", "");
+        number = number.replace("/", "");
+        number = number.replace("-", "");
+        return number;
     }
 }

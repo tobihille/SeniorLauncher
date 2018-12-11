@@ -3,22 +3,26 @@ package de.nodomain.tobihille.seniorlauncher;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 
-public class ContactRepresentation {
+import java.io.Serializable;
+
+class ContactRepresentation implements Serializable {
 
     private String phoneNumber = null;
-    private Drawable contactImage = null;
+    private String contactImageUri = null;
 
-    ContactRepresentation(String phoneNumber, Bitmap contactImage) {
+    ContactRepresentation(String phoneNumber, String contactImageUri) {
         this.phoneNumber = phoneNumber;
-        this.contactImage = new BitmapDrawable(null, contactImage);
+        this.contactImageUri = contactImageUri;
     }
 
-    public String getPhoneNumber() {
+    String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public Drawable getContactImage() {
-        return contactImage;
+    String getContactImageUri() {
+        return contactImageUri;
     }
 }

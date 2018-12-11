@@ -16,18 +16,7 @@
     >
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="vertical" android:id="@+id/verticalLayout">
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:id="@+id/row3">
-                <Button
-                        android:text="@string/go_back"
-                        android:layout_width="0dp"
-                        android:layout_height="140dp"
-                        android:id="@+id/button2"
-                        android:layout_weight="1"
-                        android:onClick="goBack"/>
-            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </android.support.v4.widget.NestedScrollView>
