@@ -16,32 +16,7 @@
     >
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="vertical" android:id="@+id/verticalLayout">
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/row1">
-                <Button
-                        android:text="@string/show_images"
-                        android:layout_width="0dp"
-                        android:layout_height="140dp"
-                        android:id="@+id/button"
-                        android:layout_weight="1"
-                        android:drawableStart="@drawable/gallery"
-                        android:onClick="openGallery"/>
-            </LinearLayout>
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:id="@+id/row2">
-                <Button
-                        android:text="@string/go_back"
-                        android:layout_width="0dp"
-                        android:layout_height="140dp"
-                        android:id="@+id/goBack"
-                        android:layout_weight="1"
-                        android:onClick="goBack"/>
-            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </android.support.v4.widget.NestedScrollView>

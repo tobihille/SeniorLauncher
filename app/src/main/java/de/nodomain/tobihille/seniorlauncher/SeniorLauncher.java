@@ -15,10 +15,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -203,6 +200,15 @@ public class SeniorLauncher extends AppCompatActivity {
                         try {
                             Class<SeniorLauncherPhone> c = SeniorLauncherPhone.class;
                             Method method = c.getDeclaredMethod("callNumber", String.class);
+                            method.invoke(context, this.phoneNumber);
+                        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException failiure) {
+                            failiure.printStackTrace();
+                        }
+                    }
+                    if (source == SeniorLauncher.SOURCE_IMAGE) {
+                        try {
+                            Class<SeniorLauncherImages> c = SeniorLauncherImages.class;
+                            Method method = c.getDeclaredMethod("openMms", String.class);
                             method.invoke(context, this.phoneNumber);
                         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException failiure) {
                             failiure.printStackTrace();

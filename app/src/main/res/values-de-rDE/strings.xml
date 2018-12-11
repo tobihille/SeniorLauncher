@@ -1,3 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Senior Launcher</string>
+    <string name="call">Anrufen</string>
+    <string name="images">Bilder</string>
+    <string name="show_images">Alle Bilder anzeigen</string>
+    <string name="go_back">&lt;&lt;&lt; Zurück</string>
+    <string name="emergency_number">112</string>
+    <string name="action_settings">Einstellungen</string>
 </resources>

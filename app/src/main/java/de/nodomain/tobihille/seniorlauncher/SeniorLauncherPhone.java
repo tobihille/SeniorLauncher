@@ -40,7 +40,7 @@ public class SeniorLauncherPhone extends AppCompatActivity {
         startActivity(intent);
     }
 
-    //public neccesary, is called via reflection
+    //public necessary, is called via reflection
     public void callNumber(String phoneNumber) {
         try {
             Intent intent = new Intent(

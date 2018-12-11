@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">Senior Launcher</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name" translatable="false">Senior Launcher</string>
     <string name="call">Call</string>
     <string name="images">Images</string>
     <string name="show_images">Show all images</string>
     <string name="go_back">&lt;&lt;&lt; Go back</string>
+    <string name="emergency_number">911</string>
+    <string name="action_settings">Settings</string>
 </resources>
