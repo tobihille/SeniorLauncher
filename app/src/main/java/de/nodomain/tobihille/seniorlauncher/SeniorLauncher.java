@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,9 +16,11 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import java.io.IOException;
@@ -30,6 +33,8 @@ public class SeniorLauncher extends AppCompatActivity {
     private static final int requestPermission = 1000;
     public static final int SOURCE_PHONE = 1;
     public static final int SOURCE_IMAGE = 2;
+    public static final int BUTTON_TYPE_CONTACT = 1;
+    public static final int BUTTON_TYPE_DEFAULT = 2;
 
     private ArrayList<ContactRepresentation> contactList = null;
 
@@ -146,10 +151,22 @@ public class SeniorLauncher extends AppCompatActivity {
         return horizontalLayoutParams;
     }
 
-    static LinearLayout.LayoutParams getButtonParams() {
-        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                SeniorLauncher.dpToPx(140));
+    static LinearLayout.LayoutParams getButtonParams(int type, AppCompatActivity context) {
+        LinearLayout.LayoutParams buttonParams = null;
+        if (type == SeniorLauncher.BUTTON_TYPE_DEFAULT) {
+            buttonParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    SeniorLauncher.dpToPx(140));
+        } else {
+            Display display = context.getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int width = size.x;
+            buttonParams = new LinearLayout.LayoutParams(
+                    width / 3,
+                    SeniorLauncher.dpToPx(140));
+        }
+
         return buttonParams;
     }
 
@@ -160,11 +177,24 @@ public class SeniorLauncher extends AppCompatActivity {
             final int source
     ) {
         LinearLayout.LayoutParams horizontalLayoutParams = SeniorLauncher.getHorizontalLayoutParams();
-        LinearLayout.LayoutParams buttonParams = SeniorLauncher.getButtonParams();
+        LinearLayout.LayoutParams buttonParams = SeniorLauncher.getButtonParams(SeniorLauncher.BUTTON_TYPE_CONTACT, context);
 
+        Resources resources = context.getResources();
         LinearLayout horizontalLayout = null;
 
-        for (int i = 0; i < contactList.size(); i++) {
+        ArrayList<ContactRepresentation> contactListToUse = contactList;
+        if (source == SeniorLauncher.SOURCE_PHONE) {
+            contactListToUse = (ArrayList<ContactRepresentation>) contactList.clone();
+            String emergencyNumber = context.getString(R.string.emergency_number);
+
+            Uri uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+                    resources.getResourcePackageName(R.drawable.ambulance) + '/' +
+                    resources.getResourceTypeName(R.drawable.ambulance) + '/' +
+                    resources.getResourceEntryName(R.drawable.ambulance) );
+            contactListToUse.add(0, new ContactRepresentation(emergencyNumber, uri.toString()));
+        }
+
+        for (int i = 0; i < contactListToUse.size(); i++) {
             if (i % 3 == 0) { //3 column layout works best i'd say
                 horizontalLayout = new LinearLayout(context);
                 horizontalLayout.setLayoutParams(horizontalLayoutParams);
@@ -172,15 +202,17 @@ public class SeniorLauncher extends AppCompatActivity {
                 verticalLayout.addView(horizontalLayout);
             }
 
-            ContactRepresentation currentContact = contactList.get(i);
+            ContactRepresentation currentContact = contactListToUse.get(i);
 
             int id_ = 0;
             try {
                 Bitmap b = MediaStore.Images.Media
                         .getBitmap(context.getContentResolver(),
                                 Uri.parse(currentContact.getContactImageUri()));
+                BitmapDrawable bd = new BitmapDrawable(resources, b);
                 ImageButton button = new ImageButton(context);
-                button.setBackground(new BitmapDrawable(null, b));
+                button.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                button.setImageDrawable(bd);
                 button.setId(i);
                 id_ = button.getId();
                 horizontalLayout.addView(button, buttonParams);
@@ -193,7 +225,7 @@ public class SeniorLauncher extends AppCompatActivity {
             }
 
             View buttonInLayout = context.findViewById(id_);
-            buttonInLayout.setOnClickListener(new PhoneNumberOnClickListener(contactList.get(i).getPhoneNumber()) {
+            buttonInLayout.setOnClickListener(new PhoneNumberOnClickListener(currentContact.getPhoneNumber()) {
                 @Override
                 public void onClick(View view) {
                     if (source == SeniorLauncher.SOURCE_PHONE) {
@@ -219,15 +251,15 @@ public class SeniorLauncher extends AppCompatActivity {
         }
 
         if (source == SeniorLauncher.SOURCE_IMAGE) {
-            return; //
+            return;
         }
 
-        SeniorLauncher.addGoBackButton(verticalLayout, context, contactList.size());
+        SeniorLauncher.addGoBackButton(verticalLayout, context, contactListToUse.size());
     }
 
     static void addGoBackButton(LinearLayout verticalLayout, final AppCompatActivity context, int buttonId) {
         LinearLayout.LayoutParams horizontalLayoutParams = SeniorLauncher.getHorizontalLayoutParams();
-        LinearLayout.LayoutParams buttonParams = SeniorLauncher.getButtonParams();
+        LinearLayout.LayoutParams buttonParams = SeniorLauncher.getButtonParams(SeniorLauncher.BUTTON_TYPE_DEFAULT, context);
 
         LinearLayout horizontalLayout = new LinearLayout(context);
         horizontalLayout.setLayoutParams(horizontalLayoutParams);
@@ -237,7 +269,6 @@ public class SeniorLauncher extends AppCompatActivity {
         Button b = new Button(context);
         b.setText(context.getString(R.string.go_back));
         b.setLayoutParams(buttonParams);
-        //b.setHeight( SeniorLauncher.pxToDp(140) );
         b.setId(buttonId);
         int id_ = b.getId();
         horizontalLayout.addView(b);

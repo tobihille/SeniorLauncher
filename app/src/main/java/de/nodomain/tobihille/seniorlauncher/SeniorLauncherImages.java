@@ -28,9 +28,9 @@ public class SeniorLauncherImages extends AppCompatActivity {
                 this,
                 SeniorLauncher.SOURCE_IMAGE);
 
-        //add layout button
+        //add gallery button
         LinearLayout.LayoutParams horizontalLayoutParams = SeniorLauncher.getHorizontalLayoutParams();
-        LinearLayout.LayoutParams buttonParams = SeniorLauncher.getButtonParams();
+        LinearLayout.LayoutParams buttonParams = SeniorLauncher.getButtonParams(SeniorLauncher.BUTTON_TYPE_DEFAULT, this);
 
         LinearLayout horizontalLayout = new LinearLayout(this);
         horizontalLayout.setLayoutParams(horizontalLayoutParams);
