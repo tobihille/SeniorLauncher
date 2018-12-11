@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:showIn="@layout/activity_senior_screen_images"
+        android:layout_height="match_parent" android:longClickable="false"
+        android:scaleX="1" tools:layout_width="match_parent" android:layout_width="match_parent"
+        android:id="@+id/nestedScrollView" android:layoutMode="opticalBounds"
+        android:paddingTop="30dp">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/scrollView"
+    >
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:orientation="vertical" android:id="@+id/verticalLayout">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="147dp" android:id="@+id/row1">
+                <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp" android:id="@+id/mmsTobi" android:layout_weight="1"
+                        android:src="@drawable/tobi_klein" android:onClick="mmsTobi"
+                        android:contentDescription="Nachrichten Tobi"
+                        android:foregroundGravity="center"/>
+                <ImageButton
+                        android:src="@drawable/torsten"
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp" android:id="@+id/mmsTorsten" android:layout_weight="1"
+                        android:minWidth="80dp" android:minHeight="180dp" android:scaleType="fitCenter"
+                        android:onClick="mmsTorsten" android:contentDescription="Nachrichten Torsten"
+                        android:foregroundGravity="center"/>
+                <ImageButton
+                        android:src="@drawable/sascha"
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp" android:id="@+id/mmsSascha" android:layout_weight="1"
+                        android:minWidth="80dp" android:minHeight="180dp" android:scaleType="fitCenter"
+                        android:onClick="mmsSascha" android:contentDescription="Nachrichten Torsten"
+                        android:foregroundGravity="center"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:id="@+id/row2" android:layout_weight="1">
+                <Button
+                        android:text="Alte Bilder anzeigen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="140dp" android:id="@+id/button" android:layout_weight="1"
+                        android:drawableLeft="@drawable/gallery" android:onClick="openGallery"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:id="@+id/row3">
+                <Button
+                        android:text="&lt;&lt;&lt; ZURÜCK"
+                        android:layout_width="wrap_content"
+                        android:layout_height="140dp" android:id="@+id/goBack" android:layout_weight="1"
+                        android:onClick="goBack"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</android.support.v4.widget.NestedScrollView>
