@@ -1,52 +1,132 @@
 package de.nodomain.tobihille.seniorlauncher;
 
+import android.Manifest;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class SeniorLauncher extends AppCompatActivity {
+
+    private static final int requestPermission = 1000;
+
+    private ArrayList<ContactRepresentation> contactList = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_senior_launcher);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        ActivityCompat.requestPermissions(this,
+                new String[] {
+                        Manifest.permission.CALL_PHONE,
+                        Manifest.permission.READ_CONTACTS
+                },
+                SeniorLauncher.requestPermission);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_senior_launcher, menu);
-        return true;
+    private ArrayList getContacts() {
+        if (this.contactList == null) {
+            this.readContacts();
+        }
+        return this.contactList;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    private void readContacts() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            return;
         }
 
-        return super.onOptionsItemSelected(item);
+        ContentResolver contentResolver = getContentResolver();
+        Cursor contactsCursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI,
+                null, null, null, null);
+
+        if ((contactsCursor != null ? contactsCursor.getCount() : 0) > 0) {
+            int colIdxHasPhoneNumber = contactsCursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
+            int colIdxPhotoUri = contactsCursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI);
+            //int colIdxName = contactsCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+
+            while (/*contactsCursor != null && */contactsCursor.moveToNext()) {
+                String id = contactsCursor.getString(contactsCursor.getColumnIndex(ContactsContract.Contacts._ID));
+                int hasPhoneNumber = contactsCursor.getInt(colIdxHasPhoneNumber);
+                String imageUri = contactsCursor.getString(colIdxPhotoUri);
+                //String name = contactsCursor.getString(colIdxName);
+
+                String phoneNumber = null;
+                if (hasPhoneNumber > 0) {
+                    Cursor phoneCursor = contentResolver.query(
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID
+                                    + " = ?", new String[] { id }, null);
+                    int colIdxNormalizedNumber = phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER);
+                    int colIdxNumber = phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+
+                    while (phoneCursor.moveToNext()) {
+                        phoneNumber = phoneCursor.getString(colIdxNormalizedNumber);
+                        if (phoneNumber != null) {
+                            break;
+                        }
+                    }
+                    if (phoneNumber == null) { //if no number could be normalized we'll try the entered string
+                        phoneCursor.moveToFirst();
+                        while (phoneCursor.moveToNext()) {
+                            phoneNumber = phoneCursor.getString(colIdxNumber);
+                            if (phoneNumber != null) {
+                                break;
+                            }
+                        }
+                    }
+                    phoneCursor.close();
+                }
+
+                if (phoneNumber != null && imageUri != null) {
+                    Bitmap contactPhoto = null;
+                    try {
+                        contactPhoto = MediaStore.Images.Media
+                                .getBitmap(this.getContentResolver(),
+                                        Uri.parse(imageUri));
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
+                    if (this.contactList == null) {
+                        this.contactList = new ArrayList<>();
+                    }
+
+                    this.contactList.add(new ContactRepresentation(phoneNumber, contactPhoto));
+                }
+            }
+        }
+        if (contactsCursor!=null) {
+            contactsCursor.close();
+        }
+    }
+
+    public void startCallActivity(View sender) {
+        ArrayList contactList = this.getContacts();
+        Intent intent = new Intent(this, SeniorLauncherPhone.class);
+        intent.putExtra("contactList", contactList);
+        startActivity(intent);
+    }
+
+    public void startImagesActivity(View sender) {
+        ArrayList contactList = this.getContacts();
+        Intent intent = new Intent(this, SeniorLauncherImages.class);
+        intent.putExtra("contactList", contactList);
+        startActivity(intent);
     }
 }

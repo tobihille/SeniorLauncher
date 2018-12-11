@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/activity_senior_screen_phone"
+        tools:showIn="@layout/activity_senior_launcher_phone"
         android:layout_height="match_parent" android:longClickable="false"
         android:scaleX="1" tools:layout_width="match_parent" android:layout_width="match_parent"
         android:id="@+id/nestedScrollView" android:layoutMode="opticalBounds"
@@ -19,60 +19,13 @@
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" tools:layout_height="140dp" android:id="@+id/row1">
-                <ImageButton
-                        android:layout_width="300dp"
-                        android:layout_height="140dp" android:id="@+id/tobi" android:layout_weight="1"
-                        android:minWidth="80dp"
-                        android:src="@drawable/tobi_klein" tools:minHeight="120dp"
-                        android:scaleType="fitCenter"
-                        tools:clickable="true"
-                        android:onClick="callTobi" android:contentDescription="Tobi anrufen"/>
-                <ImageButton
-                        android:src="@drawable/torsten"
-                        android:layout_width="300dp"
-                        android:layout_height="140dp" android:id="@+id/torsten" android:layout_weight="1"
-                        android:onClick="callTorsten"
-                        android:contentDescription="Torsten anrufen"/>
-                <ImageButton
-                        android:src="@drawable/sascha"
-                        android:layout_width="300dp"
-                        android:layout_height="140dp" android:id="@+id/sascha" android:layout_weight="1"
-                        android:onClick="callSascha"
-                        android:contentDescription="Torsten anrufen"/>
-            </LinearLayout>
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" tools:layout_height="140dp" android:id="@+id/row2">
-                <ImageButton
-                        android:src="@drawable/haus"
-                        android:layout_width="match_parent"
-                        android:layout_height="140dp" android:id="@+id/zuhause" android:layout_weight="1"
-                        android:minWidth="80dp" android:minHeight="180dp" android:scaleType="fitCenter"
-                        android:onClick="callZuhause"
-                        android:contentDescription="Notruf anrufen"/>
-                <ImageButton
-                        android:src="@drawable/krankenwagen"
-                        android:layout_width="match_parent"
-                        android:layout_height="140dp" android:id="@+id/notruf" android:layout_weight="1"
-                        android:minWidth="80dp" android:minHeight="180dp" android:scaleType="fitCenter"
-                        android:onClick="callNotruf"
-                        android:contentDescription="Notruf anrufen"/>
-                <ImageButton
-                        android:layout_width="match_parent"
-                        android:layout_height="140dp" android:id="@+id/hausarzt" android:layout_weight="1"
-                        android:onClick="callHausarzt" android:contentDescription="Hausarzt anrufen"
-                        android:src="@drawable/hausarzt"/>
-            </LinearLayout>
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
                     android:layout_height="match_parent" android:id="@+id/row3">
                 <Button
-                        android:text="&lt;&lt;&lt; ZURÜCK"
-                        android:layout_width="wrap_content"
-                        android:layout_height="140dp" android:id="@+id/button2" android:layout_weight="1"
+                        android:text="@string/go_back"
+                        android:layout_width="0dp"
+                        android:layout_height="140dp"
+                        android:id="@+id/button2"
+                        android:layout_weight="1"
                         android:onClick="goBack"/>
             </LinearLayout>
         </LinearLayout>

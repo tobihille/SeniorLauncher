@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".SeniorScreen">
+        tools:context=".SeniorLauncherPhone">
 
     <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
@@ -17,6 +17,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_senior_screen_phone"/>
+    <include layout="@layout/content_senior_launcher_phone"/>
 
 </android.support.design.widget.CoordinatorLayout>
