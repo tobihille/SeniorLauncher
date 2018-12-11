@@ -23,3 +23,5 @@ A launcher app for Android, intended for oldies
   * https://www.iconfinder.com/icons/3447431/call_mobile_phone_icon from Ari Padrian (https://www.iconfinder.com/aripadrian)
   * https://www.iconfinder.com/icons/3447441/gallery_icon from Ari Padrian (https://www.iconfinder.com/aripadrian)
   
+## License
+SeniorLauncher is released under the The GNU General Public License v3.0 (GPLv3), which can be found in the LICENSE file in the root of this project.
