@@ -4,18 +4,35 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class SeniorLauncher extends AppCompatActivity {
 
     private static final int requestPermission = 1000;
+    public static final int SOURCE_PHONE = 1;
+    public static final int SOURCE_IMAGE = 2;
 
     private ArrayList<ContactRepresentation> contactList = null;
 
@@ -122,5 +139,116 @@ public class SeniorLauncher extends AppCompatActivity {
         number = number.replace("/", "");
         number = number.replace("-", "");
         return number;
+    }
+
+    static LinearLayout.LayoutParams getHorizontalLayoutParams() {
+        LinearLayout.LayoutParams horizontalLayoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+        return horizontalLayoutParams;
+    }
+
+    static LinearLayout.LayoutParams getButtonParams() {
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                SeniorLauncher.dpToPx(140));
+        return buttonParams;
+    }
+
+    static void createContactButtons(
+            LinearLayout verticalLayout,
+            ArrayList<ContactRepresentation> contactList,
+            final AppCompatActivity context,
+            final int source
+    ) {
+        LinearLayout.LayoutParams horizontalLayoutParams = SeniorLauncher.getHorizontalLayoutParams();
+        LinearLayout.LayoutParams buttonParams = SeniorLauncher.getButtonParams();
+
+        LinearLayout horizontalLayout = null;
+
+        for (int i = 0; i < contactList.size(); i++) {
+            if (i % 3 == 0) { //3 column layout works best i'd say
+                horizontalLayout = new LinearLayout(context);
+                horizontalLayout.setLayoutParams(horizontalLayoutParams);
+                horizontalLayout.setOrientation(LinearLayout.HORIZONTAL);
+                verticalLayout.addView(horizontalLayout);
+            }
+
+            ContactRepresentation currentContact = contactList.get(i);
+
+            int id_ = 0;
+            try {
+                Bitmap b = MediaStore.Images.Media
+                        .getBitmap(context.getContentResolver(),
+                                Uri.parse(currentContact.getContactImageUri()));
+                ImageButton button = new ImageButton(context);
+                button.setBackground(new BitmapDrawable(null, b));
+                button.setId(i);
+                id_ = button.getId();
+                horizontalLayout.addView(button, buttonParams);
+            } catch (IOException ioe) {
+                Button button = new Button(context);
+                button.setId(i);
+                button.setText(currentContact.getPhoneNumber());
+                id_ = button.getId();
+                horizontalLayout.addView(button, buttonParams);
+            }
+
+            View buttonInLayout = context.findViewById(id_);
+            buttonInLayout.setOnClickListener(new PhoneNumberOnClickListener(contactList.get(i).getPhoneNumber()) {
+                @Override
+                public void onClick(View view) {
+                    if (source == SeniorLauncher.SOURCE_PHONE) {
+                        try {
+                            Class<SeniorLauncherPhone> c = SeniorLauncherPhone.class;
+                            Method method = c.getDeclaredMethod("callNumber", String.class);
+                            method.invoke(context, this.phoneNumber);
+                        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException failiure) {
+                            failiure.printStackTrace();
+                        }
+                    }
+                }
+            });
+        }
+
+        if (source == SeniorLauncher.SOURCE_IMAGE) {
+            return; //
+        }
+
+        SeniorLauncher.addGoBackButton(verticalLayout, context, contactList.size());
+    }
+
+    static void addGoBackButton(LinearLayout verticalLayout, final AppCompatActivity context, int buttonId) {
+        LinearLayout.LayoutParams horizontalLayoutParams = SeniorLauncher.getHorizontalLayoutParams();
+        LinearLayout.LayoutParams buttonParams = SeniorLauncher.getButtonParams();
+
+        LinearLayout horizontalLayout = new LinearLayout(context);
+        horizontalLayout.setLayoutParams(horizontalLayoutParams);
+        horizontalLayout.setOrientation(LinearLayout.HORIZONTAL);
+        verticalLayout.addView(horizontalLayout);
+
+        Button b = new Button(context);
+        b.setText(context.getString(R.string.go_back));
+        b.setLayoutParams(buttonParams);
+        //b.setHeight( SeniorLauncher.pxToDp(140) );
+        b.setId(buttonId);
+        int id_ = b.getId();
+        horizontalLayout.addView(b);
+        View buttonInLayout = context.findViewById(id_);
+        buttonInLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.finish();
+            }
+        });
+    }
+
+    static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    static int pxToDp(int px) {
+        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
     }
 }
