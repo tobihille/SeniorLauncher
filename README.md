@@ -18,10 +18,11 @@ A launcher app for Android, intended for oldies
 
 ## Legal stuff
 * Android is a brand of Google LLC
-* The following images are used:
+* The following images are used - all "Creative Commons (Attribution 3.0 Unported)" (https://creativecommons.org/licenses/by/3.0/):
   * https://www.iconfinder.com/icons/3465608/ambulance_car_emergency_fast_medical_rescue_vehicle_icon from maxicons (https://www.iconfinder.com/sorasak21)
   * https://www.iconfinder.com/icons/3447431/call_mobile_phone_icon from Ari Padrian (https://www.iconfinder.com/aripadrian)
   * https://www.iconfinder.com/icons/3447441/gallery_icon from Ari Padrian (https://www.iconfinder.com/aripadrian)
+  * https://www.iconfinder.com/icons/1296368/rocket_space_icon from bamicon (https://www.iconfinder.com/Tempebacem)
   
 ## License
 SeniorLauncher is released under the The GNU General Public License v3.0 (GPLv3), which can be found in the LICENSE file in the root of this project.
