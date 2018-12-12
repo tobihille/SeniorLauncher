@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Senior Launcher</string>
+    <string name="app_name">Senior Launcher</string>
     <string name="call">Call</string>
     <string name="images">Images</string>
     <string name="show_images">Show all images</string>
