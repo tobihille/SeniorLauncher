@@ -8,7 +8,7 @@ A launcher app for Android, intended for oldies
 * Every contact is displayed as a large button with the contact's image on it.
 * On click either a call to the contact is initialized or the sms-app is opened to show images sent via mms
 * In image-mode the gallery can be opened
-* Calling the ambulance is added on top of the list.
+* Calling the ambulance is added on top of the list in the call-screen.
 * Language: English and German. (911 and 112 for calling the ambulance is translated of course)
 
 ## Why are mms used for images?
