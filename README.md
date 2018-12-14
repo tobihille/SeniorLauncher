@@ -1,6 +1,8 @@
 # SeniorLauncher
 A launcher app for Android, intended for oldies
 
+<a href="https://f-droid.org/repository/browse/?fdid=de.nodomain.tobihille.seniorlauncher"><img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="100"></a>
+
 ## What does this app do?
 * It registers as app launcher (that means it is called when the phone boots and the home button is pressed).
 * It let's the user decide if he wants to call someone or wants to watch images
