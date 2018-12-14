@@ -54,6 +54,10 @@ public class SeniorLauncher extends AppCompatActivity {
     private ArrayList getContacts() {
         if (this.contactList == null) {
             this.readContacts();
+            //prevent crash on factory fresh phones without contacts
+            if (this.contactList == null) {
+                contactList = new ArrayList<ContactRepresentation>();
+            }
         }
         return this.contactList;
     }
