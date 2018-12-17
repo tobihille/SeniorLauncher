@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Senior Launcher</string>
+    <string name="call">Appel</string>
+    <string name="images">Images</string>
+    <string name="show_images">Voir toutes les images</string>
+    <string name="go_back">&lt;&lt;&lt; Retour</string>
+    <string name="emergency_number">112</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="loading">Chargement, veuillez patienter &#8230;</string>
+</resources>
