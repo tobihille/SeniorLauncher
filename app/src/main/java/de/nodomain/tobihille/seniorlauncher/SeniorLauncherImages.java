@@ -28,6 +28,8 @@ public class SeniorLauncherImages extends AppCompatActivity {
                 this,
                 SeniorLauncher.SOURCE_IMAGE);
 
+        this.setTitle(R.string.images);
+
         //add gallery button
         LinearLayout.LayoutParams horizontalLayoutParams = SeniorLauncher.getHorizontalLayoutParams();
         LinearLayout.LayoutParams buttonParams = SeniorLauncher.getButtonParams(SeniorLauncher.BUTTON_TYPE_DEFAULT, this);

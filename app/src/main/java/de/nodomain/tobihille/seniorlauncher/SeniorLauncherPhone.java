@@ -23,6 +23,8 @@ public class SeniorLauncherPhone extends AppCompatActivity {
 
         LinearLayout verticalLayout = (LinearLayout) findViewById(R.id.verticalLayout);
 
+        this.setTitle(R.string.call);
+
         SeniorLauncher.createContactButtons(
                 verticalLayout,
                 contactList,
