@@ -22,10 +22,11 @@ Hi! Thank you for your interest in contributing :-)
     * ``Images``
     * ``Show all images``
     * ``Go back``
-    * the emergency number for the country, e.g. 112 or 911 (this is important!)
+    * the number which is called in case of a medical emergency, e.g. 112 in France or Germany or 911 in the USA
+      * I think this is important, if you do not provide this number I will try to look it up and use 911 if I don't find anything
     * ``Settings`` (currently not used)
     * ``Loading, please wait a moment``
-  * If the language uses special characters please try to encode them like they would be on a web page (e.g. the german ``ä`` would become a ``&auml;``)
+  * I will try the new translation in Android Emulator, if something looks strange (maybe a word is not looking like I see it in the issue) I probably will contact you via the issue.
   
 # Code of conduct
 * be excellent to each other
