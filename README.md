@@ -11,7 +11,7 @@ A launcher app for Android, intended for oldies
 * On click either a call to the contact is initialized or the sms-app is opened to show images sent via mms
 * In image-mode the gallery can be opened
 * Calling the ambulance is added on top of the list in the call-screen.
-* Language: English and German. (911 and 112 for calling the ambulance is translated of course)
+* Language: US english, german, french and brazilian portugese. (the medical emergency number is localized, of course)
 
 ## Why are mms used for images?
 * Because they are available everywhere and every phone has an app to use them installed
