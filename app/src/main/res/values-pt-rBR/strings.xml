@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Senior Launcher</string>
+    <string name="call">Chamada</string>
+    <string name="images">Imagens</string>
+    <string name="show_images">Mostrar todas as imagens</string>
+    <string name="go_back">&lt;&lt;&lt; Voltar</string>
+    <string name="emergency_number">192</string>
+    <string name="action_settings">Configurações</string>
+    <string name="loading">Carregando, aguarde um momento &#8230;</string>
+</resources>
